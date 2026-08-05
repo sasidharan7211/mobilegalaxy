@@ -1,0 +1,210 @@
+* { margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+nav {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: whitesmoke;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    z-index: 999;
+}
+nav .logo {
+    font-size: 15px;
+    padding: 7px 30px;
+}
+nav ul {
+    display: flex;
+    list-style: none;
+    margin-right: 20px;
+    z-index: 1;
+}
+.show {
+    display: flex;
+}
+nav ul li a {
+    display: inline-block;
+    margin: 0 10px;
+    text-decoration: none;
+    color: black;
+    transition: transform 0.3s ease;
+}
+nav ul li a:hover {
+    color: #ff4d4d;
+    transform: scale(1.1);
+}
+.bars {
+    display: none;
+    font-size: 30px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+#nav2 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+#nav2 #searchBar {
+    width: 60%;
+    height: 35px;
+    border-radius: 20px;
+    border: 2px solid #000;
+    font-size: 16px;
+    padding: 5px 10px;
+}
+#nav2 #searchIcon {
+    position: absolute;
+    margin-right: -58%;
+    font-size: 23px;
+    color: whitesmoke;
+    background-color: #000;
+    padding: 7px 15px 7px 15px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+}
+#nav2 #searchButton {
+    height: 35px;
+    border-radius: 10px;
+    border: 1px solid #090808;
+    background-color: #fff;
+    padding: 5px 10px;
+    font-size: 15px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+#nav2 #searchButton:hover {
+    background-color: #000000;
+    color: #fff;
+    transform: scale(1.05);
+}
+.showImgOuterContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+.showImg {
+    width: 350px;
+    margin: 0 10px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-size: cover;
+    background-position: center;
+    height: 250px;
+    transition: transform 2s ease;
+    display: flex;
+}
+.showImg1 {
+    background-image: url('images/1.jpg');
+}
+.showImg2 {
+    background-image: url('images/2.jpg');
+}
+.showImg3 {
+    background-image: url('images/3.jpg');
+}
+.showImg:hover {
+    transform: scale(1.05);
+    transition: transform 0.5s ease;
+}
+
+#productContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin-top: 100px;
+}
+.product {
+    width: 400px;
+    margin: 30px 10px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 30px;
+    display: flex;
+}
+.product:hover {
+    transform: scale(1.05);
+    transition: 0.5s;
+}
+.productImg {
+    width: 150px;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+.productDetails {
+    margin-left: 0px;
+    display: flex;
+    flex-direction: column;
+}
+.productName {
+    font-size: 20px;
+    font-weight: 600;
+}
+.productPrice {
+    font-size: 25px;
+    font-weight: 500;
+}
+.productPrice del {
+    color: #ccc;
+    font-size: 16px;
+    position: relative;
+    left: 10px;
+}
+
+@media (max-width: 1024px) {
+    .showImg3 {
+        display: none;
+    }
+}
+
+@media  (max-width: 700px) {
+    nav ul {
+        display: none;
+        position: absolute;
+        top: 70px;
+        width: 100%;
+        background-color: whitesmoke;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    }
+    nav ul li {
+        margin: 10px 0;
+    }
+    .bars {
+        display: block;
+    }
+    #nav2 #searchBar {
+        height: 30px;
+    }
+    #nav2 #searchIcon {
+        font-size: 20px;
+    }
+    .showImg2 {
+        display: none;
+    }
+    .showImg3 {
+        display: none;
+    }
+    .product {
+        width:250px;
+        flex-direction: column;
+    }
+    .productOuterImg {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+
+}
