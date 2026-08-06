@@ -273,6 +273,9 @@ nav ul li a:hover {
         margin-bottom: 50px;
         margin-left: 25%;
     }
+    .productViewImg img {
+        width: 250px;
+    }
 
 }
 
