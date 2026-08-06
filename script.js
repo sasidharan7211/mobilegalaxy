@@ -36,6 +36,7 @@ else {
         showImg3.style.backgroundImage = `url('images/${images[(currentIndex + 2) % images.length]}')`;
     }, 2000);
 }
+
 const mobiles = [
   {
     id: 1,
