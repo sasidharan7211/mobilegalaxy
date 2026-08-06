@@ -294,6 +294,7 @@ function displayProducts(productsToDisplay = mobiles){
                 </div>
         `;
         productContainer.appendChild(productCard);
+        productCard.onclick = () => showProducts(mobile.id)
     });
 }
 displayProducts();
@@ -308,3 +309,37 @@ searchValue.addEventListener('input', () => {
   document.querySelector('.showImgOuterContainer').style.display = searchValue.value === '' ? 'flex' : 'none' ;
 })
 
+const productView = document.querySelector('.ContainerproductView');
+const main = document.querySelector('#main');
+const exitBtn = document.querySelector('.exit');
+
+function showProducts(id){
+  main.style.display = 'none';
+  exitBtn.style.display = 'block';
+  const product = mobiles.find(item => item.id === id)
+  const productCard = document.createElement('div');
+  productCard.classList.add('productView');
+  productCard.innerHTML = `
+  <div class="productViewImg">
+      <img src="${product.image}">
+    </div>
+    <div class="productViewContent">
+      <span class="productViewName">${product.name}</span><br>
+      <span class="productViewDescription">${product.description}</span><br><br>
+      <hr><br>
+      <span class="productViewPrice">₹${product.marketPrice}<del>₹${product.discountPrice}</del></span><br>
+      <span class="stock">In stock</span><br>
+      <div class="orderBtn">
+        <button class="addToCart">Add to Cart <i class="fa-solid fa-cart-shopping"></i></button>
+        <button class="orderNow">order Now</button>
+      </div>
+    </div>
+  `;
+  productView.appendChild(productCard);
+
+}
+exitBtn.addEventListener('click',() => {
+  productView.innerHTML = ``;
+  main.style.display = 'block';
+  exitBtn.style.display = 'none';
+});
