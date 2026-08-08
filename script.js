@@ -593,12 +593,6 @@ checkoutForm.addEventListener("submit", async function (e) {
 // Continue shopping
 if (continueShopping) {
     continueShopping.addEventListener("click", () => {
-        orderSuccess.style.display = "none";
-
-        checkoutForm.reset();
-
-        checkoutFormContainer.style.display = "none";
-
-        main.style.display = "block";
+       location.reload();
     });
 }
