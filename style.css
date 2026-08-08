@@ -621,6 +621,9 @@ padding:0;
 
 }
 @media (max-width: 700px) {
+   .showImg1 {
+      width: 290px;
+   }
     nav {
         min-height: 50px;
     }
@@ -687,7 +690,7 @@ padding:0;
 
     /* IMAGE */
     .showImgOuterContainer {
-        margin-top: 15px;
+        margin-top: 20px;
     }
 
     .showImg2,
