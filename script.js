@@ -763,7 +763,7 @@ if (exitBtn) {
 }
 
 // GOOGLE APPS SCRIPT
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw-JSKDv9kFBNt60WC3-Doz88xAbOVKjqR91fZAggBpYCJzonf0lWDUuB81IwxqQM_c/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7mSu-dvtQK942tKiu_aVpI1aGh93sGvh1jYCE_Pyi1sZvm8nwrSVfuEqr9Dmbk30d/exec';
 
 // CHECKOUT
 function showCheckoutView() {
