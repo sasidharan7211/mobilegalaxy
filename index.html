@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <linkhref="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Mobile Galaxy</title>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <h1>Mobile Galaxy</h1>
+        </div>
+        <p onclick="showCartProducts()" id="cart"><i class="fa-solid fa-cart-shopping"></i></p>
+    </nav>
+
+    <div id="main">
+        <div id="nav2">
+            <input type="text" placeholder="Search for mobiles." id="searchBar">
+            <div id="searchIcon"><i class="fa-solid fa-magnifying-glass"></i></div>
+        </div>
+
+        <div class="showImgOuterContainer">
+            <div class="showImg showImg1"></div>
+            <div class="showImg showImg2"></div>
+            <div class="showImg showImg3"></div>
+        </div>
+
+        <div id="productContainer"></div>
+    </div>
+
+    <div class="ContainerproductView"></div>
+    <div class="exit"><i class="fa-solid fa-circle-arrow-left"></i></div>
+
+    <div id="cartContainer"></div>
+    <div id="cartTotal">Total: ₹0</div>
+    <button id="checkOut">Produced to pay</button>
+    <div id="checkoutFormContainer">
+
+        <form id="checkoutForm">
+            <h2>Customer Details</h2>
+            <div class="formRow">
+                <div class="formGroup">
+                    <label for="customerName">
+                        Name
+                    </label>
+                    <input type="text" id="customerName" placeholder="Enter your name" required>
+                </div>
+                <div class="formGroup">
+                    <label for="whatsapp">
+                        WhatsApp Number
+                    </label>
+                    <input type="tel" id="whatsapp" placeholder="Enter WhatsApp number" pattern="[0-9]{10}"
+                        maxlength="10" required>
+                </div>
+            </div>
+            <div class="formGroup">
+                <label for="address">
+                    Address
+                </label>
+                <textarea id="address" placeholder="Enter your full address" rows="4" required></textarea>
+            </div>
+            <div class="formRow">
+                <div class="formGroup">
+                    <label for="district">
+                        District
+                    </label>
+                    <select id="district" required>
+                        <option value="">
+                            Select District
+                        </option>
+                        <option>Ariyalur</option>
+                        <option>Chengalpattu</option>
+                        <option>Chennai</option>
+                        <option>Coimbatore</option>
+                        <option>Cuddalore</option>
+                        <option>Dharmapuri</option>
+                        <option>Dindigul</option>
+                        <option>Erode</option>
+                        <option>Kallakurichi</option>
+                        <option>Kancheepuram</option>
+                        <option>Karur</option>
+                        <option>Krishnagiri</option>
+                        <option>Madurai</option>
+                        <option>Mayiladuthurai</option>
+                        <option>Nagapattinam</option>
+                        <option>Namakkal</option>
+                        <option>Perambalur</option>
+                        <option>Pudukkottai</option>
+                        <option>Ramanathapuram</option>
+                        <option>Ranipet</option>
+                        <option>Salem</option>
+                        <option>Sivaganga</option>
+                        <option>Tenkasi</option>
+                        <option>Thanjavur</option>
+                        <option>Theni</option>
+                        <option>Thoothukudi</option>
+                        <option>Tiruchirappalli</option>
+                        <option>Tirunelveli</option>
+                        <option>Tirupathur</option>
+                        <option>Tiruppur</option>
+                        <option>Tiruvallur</option>
+                        <option>Tiruvannamalai</option>
+                        <option>Tiruvarur</option>
+                        <option>Vellore</option>
+                        <option>Viluppuram</option>
+                        <option>Virudhunagar</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label for="pincode">
+                        Pincode
+                    </label>
+                    <input type="text" id="pincode" placeholder="Enter pincode" pattern="[0-9]{6}" maxlength="6"
+                        required>
+                </div>
+            </div>
+            <div class="checkoutProductsWrapper">
+                <h2>Order Details</h2>
+                <div id="checkoutProducts"></div>
+            </div>
+            <div class="checkoutTotalBox">
+                <span>
+                    Total Cost
+                </span>
+                <span>
+                    ₹<span id="checkoutTotalPrice">0</span>
+                </span>
+            </div>
+            <button type="submit" id="placeOrder">
+                Place Order
+            </button>
+        </form>
+    </div>
+    <div id="orderSuccess">
+        <div class="successBox">
+            <div class="checkCircle">
+                <svg viewBox="0 0 52 52">
+                    <circle class="checkCircleBg" cx="26" cy="26" r="25" />
+                    <path class="checkMark" d="M14 27 L22 35 L39 17" />
+                </svg>
+            </div>
+            <h1>
+                Order Placed Successfully!
+            </h1>
+            <p>
+                Thank you for your order.
+            </p>
+            <button id="continueShopping" type="button">
+                Continue Shopping
+            </button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="https://kit.fontawesome.com/a5701d7cbd.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
