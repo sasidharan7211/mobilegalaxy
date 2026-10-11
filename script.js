@@ -342,6 +342,9 @@ if (!Array.isArray(cartItems)) {
 // It is never saved to localStorage.
 let orderNowItem = null;
 
+// REMEMBERS WHICH CART OPENED THE CHECKOUT FORM ('cart' or 'orderNow')
+let checkoutMode = 'cart';
+
 // SAVE REAL CART
 function saveCart() {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
@@ -373,6 +376,10 @@ function goBack() {
         currentView = previousView;
         if (previousView === 'cart') {
             showCartViewWithoutHistory();
+            return;
+        }
+        if (previousView === 'orderNowCart') {
+            showOrderNowCart();
             return;
         }
         if (previousView === 'product') {
@@ -763,7 +770,7 @@ if (exitBtn) {
 }
 
 // GOOGLE APPS SCRIPT
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7mSu-dvtQK942tKiu_aVpI1aGh93sGvh1jYCE_Pyi1sZvm8nwrSVfuEqr9Dmbk30d/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxNSYReWJNFGyyeSjz1XGlW0MV_TOnHy-U6Fgxss1LJKTNZ7880tAv8nnTTldMtkHTpmQ/exec';
 
 // CHECKOUT
 function showCheckoutView() {
@@ -790,12 +797,14 @@ if (checkOut) {
         // NORMAL CART
         if (currentView === 'cart') {
             checkoutItems = cartItems;
+            checkoutMode = 'cart';
         }
         // ORDER NOW CART
         if (currentView === 'orderNowCart') {
             if (orderNowItem) {
                 checkoutItems = [orderNowItem];
             }
+            checkoutMode = 'orderNow';
         }
         if (checkoutItems.length === 0) {
             return;
@@ -861,63 +870,88 @@ if (checkOut) {
 
 // SUBMIT ORDER
 if (checkoutForm) {
-    checkoutForm.addEventListener('submit', async function(e) {
+    checkoutForm.addEventListener('submit', async function (e) {
         e.preventDefault();
+
         const button = document.querySelector('#placeOrder');
+
+        // READ INPUTS
+        const name     = document.querySelector('#customerName')?.value.trim() || '';
+        const whatsapp = (document.querySelector('#whatsapp')?.value || '').replace(/\D/g, '');
+        const address  = document.querySelector('#address')?.value.trim() || '';
+        const district = document.querySelector('#district')?.value || '';
+        const pincode  = (document.querySelector('#pincode')?.value || '').trim();
+
+        // VALIDATE INPUTS
+        if (!name || !address || !district) {
+            alert('Please fill name, address and district.');
+            return;
+        }
+        if (!/^\d{10}$/.test(whatsapp.slice(-10))) {
+            alert('Enter a valid 10-digit WhatsApp number.');
+            return;
+        }
+        if (!/^\d{6}$/.test(pincode)) {
+            alert('Enter a valid 6-digit pincode.');
+            return;
+        }
+
         if (button) {
             button.disabled = true;
             button.textContent = 'Saving Order...';
         }
-        const name = document.querySelector('#customerName')?.value.trim() || '';
-        const whatsapp = document.querySelector('#whatsapp')?.value.trim() || '';
-        const address = document.querySelector('#address')?.value.trim() || '';
-        const district = document.querySelector('#district')?.value || '';
-        const pincode = document.querySelector('#pincode')?.value.trim() || '';
-        // DETERMINE PRODUCTS TO ORDER
-        let orderItems = [];
-        if (currentView === 'orderNowCart') {
-            if (orderNowItem) {
-                orderItems = [orderNowItem];
-            }
-        } else {
-            orderItems = cartItems;
-        }
+
+        // PRODUCTS TO ORDER (Order Now = temporary item, otherwise real cart)
+        const orderItems = checkoutMode === 'orderNow'
+            ? (orderNowItem ? [orderNowItem] : [])
+            : cartItems;
+
         const products = [];
         let totalCost = 0;
         orderItems.forEach((cartItem, index) => {
             const product = mobiles.find(item => item.id === cartItem.id);
             if (!product) return;
             const quantity = cartItem.quantity || 1;
-            const price = product.discountPrice;
-            const totalPrice = price * quantity;
+            const totalPrice = product.discountPrice * quantity;
             totalCost += totalPrice;
             products.push({
                 sno: index + 1,
                 name: product.name,
-                price: price,
+                price: product.discountPrice,
                 quantity: quantity,
                 totalPrice: totalPrice
             });
         });
+
+        if (products.length === 0) {
+            alert('No product selected.');
+            if (button) {
+                button.disabled = false;
+                button.textContent = 'Place Order';
+            }
+            return;
+        }
+
         const orderData = {
             name: name,
-            whatsapp: whatsapp,
+            whatsapp: whatsapp.slice(-10),
             address: address,
             district: district,
             pincode: pincode,
             products: products,
             orderTotal: totalCost
         };
+
         try {
+            // no-cors: the request reaches Apps Script and is saved in the sheet
             await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
                 mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8'
-                },
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(orderData)
             });
-            // SUCCESS
+
+            // SUCCESS SCREEN
             checkoutForm.style.display = 'none';
             checkoutFormContainer.style.display = 'none';
             cartContainer.style.display = 'none';
@@ -927,25 +961,22 @@ if (checkoutForm) {
             main.style.display = 'none';
             productView.innerHTML = '';
             checkoutProducts.innerHTML = '';
+
             // CLEAR ONLY WHAT WAS ORDERED
-            if (currentView === 'orderNowCart') {
-                // Order Now was temporary.
-                // Just remove it from memory.
+            if (checkoutMode === 'orderNow') {
                 orderNowItem = null;
             } else {
-                // Normal cart order.
-                // Clear localStorage cart.
                 cartItems = [];
                 localStorage.removeItem('cartItems');
             }
-            if (orderSuccess) {
-                orderSuccess.style.display = 'flex';
-            }
+
+            checkoutForm.reset();
+            if (orderSuccess) orderSuccess.style.display = 'flex';
             viewHistory = ['main'];
             currentView = 'main';
         } catch (error) {
             console.error('Order error:', error);
-            alert('Something went wrong while saving the order.');
+            alert('Something went wrong while saving the order. Check your internet and try again.');
             if (button) {
                 button.disabled = false;
                 button.textContent = 'Place Order';
